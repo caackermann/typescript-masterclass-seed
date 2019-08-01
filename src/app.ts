@@ -1,26 +1,13 @@
-// Classes
-class MyClass{
-    myMethod(){
-        console.log('Class:::', this)
-    }
-}
-const myInstance = new MyClass();
-//myInstance.myMethod();
-
-//Instance
-const myObj = {
+class MyClass {
     myMethod() {
-        console.log('Object:::', this)
+        const foo = 123
+        console.log('1', this)
+        // a function creates new scope whereas an arrow function doesnt bind a "this" value
+        setTimeout(() => {
+            console.log('2', this)
+        }, 0)
     }
-}
-//myObj.myMethod();
 
-// Function
-function myFunction(...text: string[]) {
-    console.log('Function:::', this, text)   
 }
-const bindFunction = myFunction.bind(myObj)
-bindFunction('ABC', 'DEF')
-bindFunction('123', '456')
-myFunction.call(myObj, 'ABC', 'DEF')
-myFunction.apply(myObj, ['ABC', 'DEF']);
+const myInstance = new MyClass()
+myInstance.myMethod()

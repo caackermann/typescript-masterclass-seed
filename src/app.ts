@@ -1,17 +1,16 @@
-//Without partial mapped type
+//With partial mapped type
 interface Person {
     name: string
     age: number
 }
 
-interface PartialPerson {
-    //optional properties
-    name?: string,
-    age?: number
+type MyPartial<T> = {
+    //makes parameters optional
+    [P in keyof T]?: T[P]
 }
 
 //to update a person
-function updatePerson(person: Person, prop: PartialPerson){
+function updatePerson(person: Person, prop: MyPartial<Person>){
     return {...person, ...prop}
 }
 

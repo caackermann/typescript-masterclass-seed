@@ -1,11 +1,18 @@
+//Without partial mapped type
 interface Person {
     name: string
     age: number
 }
 
-interface ReadonlyPerson {
-    readonly name: string
-    readonly age: number
+interface PartialPerson {
+    //optional properties
+    name?: string,
+    age?: number
+}
+
+//to update a person
+function updatePerson(person: Person, prop: PartialPerson){
+    return {...person, ...prop}
 }
 
 const person: Person = {
@@ -13,26 +20,4 @@ const person: Person = {
     age: 27
 }
 
-//To make person immutable
-//This will return a readonly version of the person
-function freezePerson(person: Person): ReadonlyPerson {
-    return Object.freeze(person)
-}
-
-const newPerson = freezePerson(person)
-
-//refactoring the above function
-function freeze<T>(obj: T): Readonly<T> {
-    return Object.freeze(obj)
-}
-const newerPerson = freeze(person)
-
-type MyReadonly <T> = {
-    readonly[P in keyof T] : T[P] //will map over all the properties and mark them readonly
-}
-function freeze2<T>(obj: T): MyReadonly<T> {
-    return Object.freeze(obj)
-}
-
-const newestPerson = freeze2(person)
-newPerson.age = 10000
+updatePerson(person, {name: 'ABC'})

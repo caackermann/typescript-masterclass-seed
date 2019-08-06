@@ -1,22 +1,38 @@
-const person = {
+interface Person {
+    name: string
+    age: number
+}
+
+interface ReadonlyPerson {
+    readonly name: string
+    readonly age: number
+}
+
+const person: Person = {
     name: 'Todd',
     age: 27
 }
 
-type Person = typeof person
-type PersonKeys = keyof Person 
-type PersonTypes = Person[PersonKeys] 
-
-//K is a subtype of our union type
-function getProperty<T, K extends keyof T>(obj: T, key: K) {
-    return obj[key];
+//To make person immutable
+//This will return a readonly version of the person
+function freezePerson(person: Person): ReadonlyPerson {
+    return Object.freeze(person)
 }
 
+const newPerson = freezePerson(person)
 
-const personName = getProperty(person, 'name') //can get property of person using string literals
+//refactoring the above function
+function freeze<T>(obj: T): Readonly<T> {
+    return Object.freeze(obj)
+}
+const newerPerson = freeze(person)
 
-const anotherPerson: Person = {
-    name: 'John',
-    age: 30,
+type MyReadonly <T> = {
+    readonly[P in keyof T] : T[P] //will map over all the properties and mark them readonly
+}
+function freeze2<T>(obj: T): MyReadonly<T> {
+    return Object.freeze(obj)
 }
 
+const newestPerson = freeze2(person)
+newPerson.age = 10000

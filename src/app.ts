@@ -4,10 +4,17 @@ const person = {
 }
 
 type Person = typeof person
+type PersonKeys = keyof Person 
+type PersonTypes = Person[PersonKeys] 
 
-type PersonKeys = keyof Person //string literals of types
+//K is a subtype of our union type
+function getProperty<T, K extends keyof T>(obj: T, key: K) {
+    return obj[key];
+}
 
-type PersonTypes = Person[PersonKeys] //allows us to have the values of the keys as their types
+
+const personName = getProperty(person, 'name') //can get property of person using string literals
+
 const anotherPerson: Person = {
     name: 'John',
     age: 30,

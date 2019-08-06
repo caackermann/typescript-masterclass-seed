@@ -3,13 +3,13 @@ const person = {
     age: 27
 }
 
-//creates a new type for person
 type Person = typeof person
 
-//binding to another value
+type PersonKeys = keyof Person //string literals of types
+
+type PersonTypes = Person[PersonKeys] //allows us to have the values of the keys as their types
 const anotherPerson: Person = {
     name: 'John',
     age: 30,
 }
 
-//In JavaScript, typeof person = 'object'

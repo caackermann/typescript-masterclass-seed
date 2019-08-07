@@ -1,22 +1,19 @@
-//With partial mapped type
 interface Person {
-    name: string
-    age: number
+    name: string;
+    age?: number;
 }
 
-type MyPartial<T> = {
-    //makes parameters optional
-    [P in keyof T]?: T[P]
+type MyRequired<T> = {
+    [P in keyof T]-?: T[P]
+    //can use + or - to make parameters optonal or not
 }
 
-//to update a person
-function updatePerson(person: Person, prop: MyPartial<Person>){
-    return {...person, ...prop}
+function printAge(person: MyRequired<Person>) {
+    return `${person.name} is ${person.age}`;
 }
 
-const person: Person = {
+const person: MyRequired<Person> = {
     name: 'Todd',
-    age: 27
+    age: 23
 }
-
-updatePerson(person, {name: 'ABC'})
+const age = printAge(person)
